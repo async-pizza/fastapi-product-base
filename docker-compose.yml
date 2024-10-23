@@ -1,0 +1,34 @@
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    networks:
+      - backend
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app
+    ports:
+      - 8000:${FASTAPI_PORT}
+    command: [ "make", "run" ]
+
+  postgres:
+    image: postgres:12
+    networks:
+      - backend
+    environment:
+      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

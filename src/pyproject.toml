@@ -1,0 +1,132 @@
+[tool.poetry]
+name = "fastapi-product-base"
+version = "1.0.0"
+description = ""
+authors = ["Alexander Borisov <a.borisov@crysto.ru>"]
+readme = "../README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+uvicorn = "^0.23.2"
+sqlalchemy = {extras = ["psycopg"], version = "^2.0.31"}
+pydantic-settings = "^2.3.4"
+httpx = "^0.25.0"
+alembic = "^1.13.1"
+asyncpg = "^0.28.0"
+
+[tool.poetry.group.dev.dependencies]
+aiosqlite = "^0.20.0"
+black = "^24.4.0"
+mypy = "^1.9.0"
+bandit = "^1.7.8"
+radon = "^6.0.1"
+ruff = "^0.4.1"
+pytest = "^8.1.1"
+pytest-cov = "^5.0.0"
+pytest-asyncio = "^0.23.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_configs = true
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations",
+    ".venv",
+]
+plugins = "pydantic.mypy"
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "E4", "E7", "E9", "F",
+    "E", "W", "I", "N",
+    "ASYNC", "S", "PL", "T20",
+    "RUF", "LOG", "TRY", "TCH",
+    "SIM", "SLF", "RET", "PT",
+    "PYI", "PIE", "C4", "ANN",
+    "ARG", "RSE", "ERA",
+    "INP", "B", "PTH",
+]
+
+ignore = [
+    "ANN101", # missing-type-self
+    "ANN102", # missing-type-class
+    "N818", # error-suffix-on-exception-name
+    "RUF001", # ambiguous-unicode-character-string
+    "TCH002",
+    "B008"
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*.py" = [
+    "S101", # asserts allowed in tests...
+    "PLR0913", # fixtures are allowed in tests
+    "PLR0917", # fixtures are allowed in tests
+]
+
+
+[tool.black]
+line-length = 79
+exclude = ".venv"
+
+
+[tool.pytest.ini_options]
+addopts = "-vv --cov=app/ --cov-report=html"
+asyncio_mode = "auto"
+
+
+[tool.coverage.report]
+fail_under = 80.0
+skip_empty = true
+sort = "coverage"
+
+[tool.coverage.html]
+directory = "artifacts/cov_report/"
+show_contexts = true
+title = "Coverage report"
+
+[tool.coverage.run]
+branch = true
+concurrency = ["thread", "greenlet"]
+data_file = "artifacts/.cov_db"
+dynamic_context = "test_function"
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "settings.py",
+    "conftest.py"
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
