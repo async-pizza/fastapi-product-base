@@ -1,19 +1,7 @@
-# User Base FastAPI
+# Product Base FastAPI
 
-###### ver. 1.0.
-
----
-
-Simple FastAPI project to manage list of users using PostgreSQL.
-
-**Used technologies:**
-
-- FastAPI
-- SQLAlchemy + Alembic
-- Docker Compose
-- Pytest
-
-**Installation**\
-Install Docker;\
-Build the container: `make build`;\
-Run the container: `make up`.
+**Инструкция по запуску**
+- Забилдите контейнер: `make build`
+- Запустите миграции: `make upgrade`
+- Запустите контейнер: `make up`
+- Чтобы увидеть API перейдите по адресу `https://localhost:8000/api/swagger`
