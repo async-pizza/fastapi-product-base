@@ -44,6 +44,6 @@ ltest: black ruff mypy bandit radon
 ###
 
 pytest:
-	poetry run pytest
+	DATABASE_URL="sqlite+aiosqlite:///:memory:" poetry run pytest
 
 

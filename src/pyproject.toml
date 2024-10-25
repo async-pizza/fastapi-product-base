@@ -65,6 +65,7 @@ ignore = [
     "ANN102", # missing-type-class
     "N818", # error-suffix-on-exception-name
     "RUF001", # ambiguous-unicode-character-string
+    "TCH001",
     "TCH002",
     "B008"
 ]
